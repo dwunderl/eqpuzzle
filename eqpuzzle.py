@@ -70,6 +70,3 @@ for np in uniqueNumberPermutations:
         expression = str("(" + np[0] + op[0] + np[1] + ")" + op[1] + "(" + np[2] + op[2] + np[3] +")")
         evaluateExpression(expression, goal, solutions)
 
-
-#-------- old code for reference ---------------
-# 
