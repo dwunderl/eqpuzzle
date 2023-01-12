@@ -1,17 +1,30 @@
-import PySimpleGUI as sg
+# import PySimpleGUI as sg
+# sg.Window(title="Hello World", layout=[[]], margins=(100, 50)).read()
 
-#sg.Window(title="Hello World", layout=[[]], margins=(100, 50)).read()
 
 
 msg = "Hello World"
 print(msg)
 
+import csv
+
+goal = 0
+numberArray = []
+with open('eqpuzzle.csv', 'r') as file:
+    reader = csv.reader(file)
+    for row in reader:
+        print(row)
+        numberArray = [row[0], row[1], row[2], row[3]]
+        goal = int(row[4])
+
+
 from itertools import permutations,product
 
 # Numbers Permutation generation
 
-goal = 19
-numberArray = ["22", "12", "9", "7"]
+#goal = 19
+#numberArray = ["22", "12", "9", "7"]
+
 numberPermutations = []
 uniqueNumberPermutations = []
 for numberPermutation in list(permutations(numberArray,4)):
