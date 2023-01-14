@@ -59,13 +59,17 @@ class Solution:
         print(f"Expression: {self.expression}, Result: {self.result}")
 
 def evaluateExpression(expression, goal, solutions):
+    try:
         result = eval(expression)
+    except ZeroDivisionError:
+        print("You can't divide by zero!")
+        result = -999
+    finally:
         #print (expression + " == " + str(result))
         if result == goal:
             solution = Solution(expression, result)
             solution.print_info()
             solutions.append(solution)
-
 
 solutions = []
 for np in uniqueNumberPermutations:
