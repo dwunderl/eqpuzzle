@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web App</title>
+    <style>
+        /* CSS styles for the input fields, button, and output field */
+        input[type=text] {
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .output {
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/" method="post">
+        <label for="input1">Input 1:</label>
+        <input type="text" id="input1" name="input1"><br>
+        <label for="input2">Input 2:</label>
+        <input type="text" id="input2" name="input2"><br>
+        <label for="input3">Input 3:</label>
+        <input type="text" id="input3" name="input3"><br>
+        <label for="input4">Input 4:</label>
+        <input type="text" id="input4" name="input4"><br>
+        <label for="input5">Input 5:</label>
+        <input type="text" id="input5" name="input5"><br>
+        <button type="submit">Submit</button>
+    </form>
+    <div class="output">
+        {{ result }}
+    </div>
+</body>
+</html>
