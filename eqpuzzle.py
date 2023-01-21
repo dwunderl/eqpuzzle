@@ -6,6 +6,8 @@
 # A class for a permutation, expression and result - eqCandidate
 
 import csv
+import sys
+
 from itertools import permutations,product
 
 class eqCandidate:
@@ -44,9 +46,6 @@ def evaluateExpression(expression, goal, solutions):
             solution.print_info()
             solutions.append(solution)
 
-msg = "Hello World"
-print(msg)
-
 def getParamsFromCsv(csvFileName):
     eqparams = eqParams()
 
@@ -58,46 +57,83 @@ def getParamsFromCsv(csvFileName):
             eqparams.goal = int(row[4])
     return eqparams
 
-eqparams = getParamsFromCsv("eqpuzzle.csv")
+def getParamsFromCmdLine():
+# Check that 5 arguments were passed
 
-# Numbers Permutation generation
+    if len(sys.argv) != 6:
+        print("Cmd Line params: ", len(sys.argv))
+        return getParamsFromCsv("eqpuzzle.csv")
 
-numberPermutations = []
-uniqueNumberPermutations = []
-for numberPermutation in list(permutations(eqparams.numbers,4)):
-    numberPermutations.append(numberPermutation)
+    # Assign the 5 arguments to variables
+    eqparams = eqParams()
 
-    # Only keep isUnique permutations
-    if numberPermutation not in uniqueNumberPermutations:
-        uniqueNumberPermutations.append(numberPermutation)
+    n1 = sys.argv[1]
+    n2 = sys.argv[2]
+    n3 = sys.argv[3]
+    n4 = sys.argv[4]
+    goal = int(sys.argv[5])
+    eqparams.numbers = [n1, n2, n3, n4]
+    eqparams.goal = goal
 
-# print(numberPermutationList)
-# print(uniqueNumberPermutations)
+    # Print the variables
+    print("Param 1: ", n1)
+    print("Param 2: ", n2)
+    print("Param 3: ", n3)
+    print("Param 4: ", n4)
+    print("Param 5: ", goal)
+    return eqparams
 
-# Operations permutation generation
+    
+msg = "Hello World"
+print(msg)
 
-operations = ["+", "-", "*","/"]
-operationPermutations = product(operations, repeat=3)
+def algEqPuzzle(eqparams):
+    numberPermutations = []
+    uniqueNumberPermutations = []
+    for numberPermutation in list(permutations(eqparams.numbers,4)):
+        numberPermutations.append(numberPermutation)
 
-# for operationPermutation in operationPermutations:
-#     print(operationPermutation)
+        # Only keep isUnique permutations
+        if numberPermutation not in uniqueNumberPermutations:
+            uniqueNumberPermutations.append(numberPermutation)
 
+    # print(numberPermutationList)
+    # print(uniqueNumberPermutations)
 
+    # Operations permutation generation
 
-
-solutions = []
-for np in uniqueNumberPermutations:
-    print(np)
+    operations = ["+", "-", "*","/"]
     operationPermutations = product(operations, repeat=3)
 
-    for op in operationPermutations:
-        #print(op)
-        expression = str("(" + np[0] + op[0] + "(" + np[1] + op[1] + np[2] + "))" + op[2] + np[3])
-        evaluateExpression(expression, eqparams.goal, solutions)
-        expression = str(np[0] + op[0] + "((" + np[1] + op[1] + np[2] + ")" + op[2] + np[3] +")")
-        evaluateExpression(expression, eqparams.goal, solutions)
-        expression = str(np[0] + op[0] + "(" + np[1] + op[1] + "(" + np[2] + op[2] + np[3] +"))")
-        evaluateExpression(expression, eqparams.goal, solutions)
-        expression = str("(" + np[0] + op[0] + np[1] + ")" + op[1] + "(" + np[2] + op[2] + np[3] +")")
-        evaluateExpression(expression, eqparams.goal, solutions)
+    # for operationPermutation in operationPermutations:
+    #     print(operationPermutation)
 
+    solutions = []
+    for np in uniqueNumberPermutations:
+        print(np)
+        operationPermutations = product(operations, repeat=3)
+
+        for op in operationPermutations:
+            #print(op)
+            expression = str("(" + np[0] + op[0] + "(" + np[1] + op[1] + np[2] + "))" + op[2] + np[3])
+            evaluateExpression(expression, eqparams.goal, solutions)
+            expression = str(np[0] + op[0] + "((" + np[1] + op[1] + np[2] + ")" + op[2] + np[3] +")")
+            evaluateExpression(expression, eqparams.goal, solutions)
+            expression = str(np[0] + op[0] + "(" + np[1] + op[1] + "(" + np[2] + op[2] + np[3] +"))")
+            evaluateExpression(expression, eqparams.goal, solutions)
+            expression = str("(" + np[0] + op[0] + np[1] + ")" + op[1] + "(" + np[2] + op[2] + np[3] +")")
+            evaluateExpression(expression, eqparams.goal, solutions)
+
+    for sol in solutions:
+        print("First solution expression is ", sol.expression)
+        return sol.expression
+
+def serveEqPuzzle(n1, n2, n3, n4, goal):
+    eqparams = eqParams([n1, n2, n3, n4], int(goal))
+    return algEqPuzzle(eqparams)
+
+eqparams = getParamsFromCmdLine()
+algEqPuzzle(eqparams)
+
+# called from flask ui
+# result = serveEqPuzzle(n1, n2, n3, n4, goal)
